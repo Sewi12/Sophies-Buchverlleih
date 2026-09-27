@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.json">
+<title>Bücherverleih</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1c1c1e;background:#f5f5f7}
+*{box-sizing:border-box}body{margin:0}.app{max-width:720px;margin:auto;padding:18px 16px 90px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}h1{font-size:30px;margin:0}
+button{border:0;border-radius:12px;padding:11px 15px;font-size:16px;cursor:pointer}.primary{background:#1c1c1e;color:white}
+.search{width:100%;padding:13px 15px;border:1px solid #ddd;border-radius:12px;font-size:16px;background:white;margin-bottom:12px}
+.filters{display:flex;gap:8px;margin-bottom:16px}.filter{background:#e5e5ea}.filter.active{background:#1c1c1e;color:#fff}
+.card{background:white;border-radius:16px;padding:15px;margin:10px 0;box-shadow:0 1px 4px #00000012}
+.row{display:flex;gap:14px}.cover{width:62px;height:84px;border-radius:8px;background:#e5e5ea;object-fit:cover}.info{flex:1}
+.title{font-weight:700;font-size:18px}.author{color:#666;margin-top:3px}.status{display:inline-block;margin-top:9px;padding:5px 9px;border-radius:999px;font-size:13px;background:#e8f5e9}.lent{background:#fff3cd}
+.meta{font-size:14px;color:#666;margin-top:7px}.actions{display:flex;gap:8px;margin-top:12px}.actions button{font-size:14px;background:#f0f0f3}
+.empty{text-align:center;color:#777;padding:45px 10px}
+dialog{border:0;border-radius:18px;width:min(92vw,520px);padding:0;box-shadow:0 15px 50px #0005}dialog::backdrop{background:#0006}.modal{padding:20px}.modal h2{margin-top:0}
+label{display:block;font-size:14px;color:#555;margin:12px 0 5px}input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font-size:16px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+</style>
+</head>
+<body>
+<main class="app">
+<header><h1>📚 Bücher</h1><button class="primary" id="addBtn">＋ Buch</button></header>
+<input class="search" id="search" placeholder="Buch suchen …">
+<nav class="filters">
+<button class="filter active" data-filter="all">Alle</button>
+<button class="filter" data-filter="mine">Bei mir</button>
+<button class="filter" data-filter="lent">Verliehen</button>
+</nav>
+<section id="books"></section>
+</main>
+
+<dialog id="bookDialog"><form method="dialog" class="modal" id="bookForm">
+<h2>Neues Buch</h2>
+<input type="hidden" id="bookId">
+<label>Titel *</label><input id="title" required>
+<label>Autor</label><input id="author">
+<label>ISBN</label><input id="isbn" inputmode="numeric">
+<div class="modal-actions"><button value="cancel">Abbrechen</button><button class="primary" value="save">Speichern</button></div>
+</form></dialog>
+
+<dialog id="lendDialog"><form method="dialog" class="modal" id="lendForm">
+<h2>Buch verleihen</h2><input type="hidden" id="lendBookId">
+<label>Verliehen an *</label><input id="person" list="peopleList" required placeholder="Name">
+<datalist id="peopleList"></datalist>
+<label>Datum</label><input id="lendDate" type="date">
+<div class="modal-actions"><button value="cancel">Abbrechen</button><button class="primary" value="lend">Verleihen</button></div>
+</form></dialog>
+
+<script src="app.js"></script>
+</body></html>
