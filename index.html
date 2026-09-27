@@ -17,7 +17,7 @@ button{border:0;border-radius:12px;padding:11px 15px;font-size:16px;cursor:point
 .row{display:flex;gap:14px}.cover{width:62px;height:84px;border-radius:8px;background:#e5e5ea;object-fit:cover}.info{flex:1}
 .title{font-weight:700;font-size:18px}.author{color:#666;margin-top:3px}.status{display:inline-block;margin-top:9px;padding:5px 9px;border-radius:999px;font-size:13px;background:#e8f5e9}.lent{background:#fff3cd}
 .meta{font-size:14px;color:#666;margin-top:7px}.actions{display:flex;gap:8px;margin-top:12px}.actions button{font-size:14px;background:#f0f0f3}
-.empty{text-align:center;color:#777;padding:45px 10px}
+.empty{text-align:center;color:#777;padding:45px 10px}.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:flex;justify-content:center;padding:8px 16px calc(8px + env(safe-area-inset-bottom));z-index:10}.nav-btn{background:transparent;color:#666;min-width:150px}.nav-btn.active{color:#1c1c1e;font-weight:700}.history-item{background:#fff;border-radius:14px;padding:14px;margin:9px 0;box-shadow:0 1px 4px #00000012}.history-title{font-weight:700}.history-meta{font-size:14px;color:#666;margin-top:5px}
 dialog{border:0;border-radius:18px;width:min(92vw,520px);padding:0;box-shadow:0 15px 50px #0005}dialog::backdrop{background:#0006}.modal{padding:20px}.modal h2{margin-top:0}
 label{display:block;font-size:14px;color:#555;margin:12px 0 5px}input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font-size:16px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
 </style>
@@ -32,7 +32,9 @@ label{display:block;font-size:14px;color:#555;margin:12px 0 5px}input,select{wid
 <button class="filter" data-filter="lent">Verliehen</button>
 </nav>
 <section id="books"></section>
+<section id="history" hidden></section>
 </main>
+<nav class="bottom-nav"><button class="nav-btn active" id="booksTab">📚 Bücher</button><button class="nav-btn" id="historyTab">↩ Rückblick</button></nav>
 
 <dialog id="bookDialog"><form method="dialog" class="modal" id="bookForm">
 <h2>Neues Buch</h2>

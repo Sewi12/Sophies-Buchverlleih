@@ -1,11 +1,13 @@
 const KEY="book-loan-data-v1";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"books":[],"people":[],"history":[]}');
 let filter="all";
+let view="books";
 
 const $=id=>document.getElementById(id);
 const today=()=>new Date().toISOString().slice(0,10);
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render();}
 function render(){
+ if(view==="history"){renderHistory();return;}
  const q=$("search").value.trim().toLowerCase();
  const list=state.books.filter(b=>
    (filter==="all"||(filter==="mine"&&!b.lent)||(filter==="lent"&&b.lent)) &&
@@ -13,6 +15,15 @@ function render(){
  );
  $("books").innerHTML=list.length?list.map(bookCard).join():'<div class="empty">Noch keine Bücher vorhanden.<br>Füge dein erstes Buch hinzu.</div>';
  document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
+ $("books").hidden=false;$("history").hidden=true;
+}
+function renderHistory(){
+ $("books").hidden=true;$("history").hidden=false;
+ const items=[...state.history].reverse();
+ if(!items.length){$("history").innerHTML='<div class="empty">Noch kein Rückblick vorhanden.<br>Hier siehst du später, wem Bücher ausgeliehen wurden.</div>';}
+ else $("history").innerHTML='<h2 style="font-size:22px;margin:8px 0 12px">Rückblick</h2>'+items.map(h=>{const b=state.books.find(x=>x.id===h.bookId);return `<article class="history-item"><div class="history-title">${esc(b?.title||"Buch nicht mehr vorhanden")}</div><div class="history-meta">Ausgeliehen an: <b>${esc(h.person)}</b><br>Am: ${formatDate(h.date)}${h.returnedDate?`<br>Zurück: ${formatDate(h.returnedDate)}`:'<br><b>Aktuell noch verliehen</b>'}</div></article>`}).join('');
+ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+ $("booksTab").classList.toggle("active",view==="books");$("historyTab").classList.toggle("active",view==="history");
 }
 function bookCard(b){
  return `<article class="card"><div class="row"><div class="cover"></div><div class="info">
@@ -59,4 +70,6 @@ function returnBook(id){
  if(h)h.returnedDate=today();
  b.lent=false;delete b.person;delete b.lentDate;save();
 }
+$("booksTab").onclick=()=>{view="books";render();};
+$("historyTab").onclick=()=>{view="history";render();};
 render();
